@@ -352,3 +352,7 @@ class VolumeManager(base.ManagerWithFind):
         return self._action('os-extend',
                             base.getid(volume),
                             {'new_size': new_size})
+
+    def create_snapshot_metadata(self, volume):
+        return self._action('os-create_snapshot_metadata',
+                            base.getid(volume))

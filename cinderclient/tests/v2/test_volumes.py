@@ -90,3 +90,8 @@ class VolumesTest(utils.TestCase):
         v = cs.volumes.get('1234')
         cs.volumes.extend(v, 2)
         cs.assert_called('POST', '/volumes/1234/action')
+
+    def test_create_snapshot_metadata(self):
+        v = cs.volumes.get('1234')
+        cs.volumes.create_snapshot_metadata(v)
+        cs.assert_called('POST', '/volumes/1234/action')

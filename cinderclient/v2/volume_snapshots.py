@@ -133,3 +133,11 @@ class SnapshotManager(base.ManagerWithFind):
         self.run_hooks('modify_body_for_action', body, **kwargs)
         url = '/snapshots/%s/action' % base.getid(snapshot)
         return self.api.client.post(url, body=body)
+
+    def finalize_snapshot_metadata(self, snapshot, status):
+        return self._action('os-finalize_snapshot_metadata',
+                            base.getid(snapshot), {'status': status})
+
+    def delete_snapshot_metadata(self, snapshot):
+        return self._action('os-delete_snapshot_metadata',
+                            base.getid(snapshot))

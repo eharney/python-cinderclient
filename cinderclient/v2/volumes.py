@@ -112,6 +112,11 @@ class Volume(base.Resource):
 
         self.manager.extend(self, volume, new_size)
 
+    def create_snapshot_metadata(self, volume):
+        """Create snapshot metadata."""
+
+        self.manager.create_snapshot_metadata(self, volume)
+
 
 class VolumeManager(base.ManagerWithFind):
     """Manage :class:`Volume` resources."""
@@ -334,3 +339,7 @@ class VolumeManager(base.ManagerWithFind):
         return self._action('os-extend',
                             base.getid(volume),
                             {'new_size': new_size})
+
+    def create_snapshot_metadata(self, volume):
+        return self._action('os-create_snapshot_metadata',
+                            base.getid(volume))

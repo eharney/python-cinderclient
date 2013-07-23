@@ -244,8 +244,12 @@ class FakeHTTPClient(base_client.HTTPClient):
         action = body.keys()[0]
         if action == 'os-reset_status':
             assert 'status' in body['os-reset_status']
+        elif action == 'os-finalize_snapshot_metadata':
+            assert 'status' in body['os-finalize_snapshot_metadata']
+        elif action == 'os-delete_snapshot_metadata':
+            pass
         else:
-            raise AssertionError('Unexpected action: %s" % action')
+            raise AssertionError("Unexpected action: %s" % action)
         return (resp, {}, _body)
 
     #
@@ -302,6 +306,8 @@ class FakeHTTPClient(base_client.HTTPClient):
             assert 'status' in body[action]
         elif action == 'os-extend':
             assert body[action].keys() == ['new_size']
+        elif action == 'os-create_snapshot_metadata':
+            assert body[action] is None
         else:
             raise AssertionError("Unexpected action: %s" % action)
         return (resp, {}, _body)
