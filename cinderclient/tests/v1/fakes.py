@@ -244,8 +244,8 @@ class FakeHTTPClient(base_client.HTTPClient):
         action = body.keys()[0]
         if action == 'os-reset_status':
             assert 'status' in body['os-reset_status']
-        elif action == 'os-finalize_snapshot_metadata':
-            assert 'status' in body['os-finalize_snapshot_metadata']
+        elif action == 'os-update_snapshot_metadata':
+            assert 'status' in body['os-update_snapshot_metadata']
         elif action == 'os-delete_snapshot_metadata':
             pass
         else:
