@@ -304,22 +304,26 @@ def do_create(cs, args):
 
 @utils.arg('volume',
            metavar='<volume>',
-           help='ID of the volume to delete.')
+           help='ID of the volume to delete.',
+           nargs='+')
 @utils.service_type('volumev2')
 def do_delete(cs, args):
     """Remove a volume."""
-    volume = _find_volume(cs, args.volume)
-    volume.delete()
+    for vol in args.volume:
+        volume = _find_volume(cs, vol)
+        volume.delete()
 
 
 @utils.arg('volume',
            metavar='<volume>',
-           help='ID of the volume to delete.')
+           help='ID of the volume to delete.',
+           nargs='+')
 @utils.service_type('volumev2')
 def do_force_delete(cs, args):
     """Attempt forced removal of a volume, regardless of its state."""
-    volume = _find_volume(cs, args.volume)
-    volume.force_delete()
+    for vol in args.volume:
+        volume = _find_volume(cs, vol)
+        volume.force_delete()
 
 
 @utils.arg('volume', metavar='<volume>', help='ID of the volume to modify.')
@@ -493,12 +497,14 @@ def do_snapshot_create(cs, args):
 
 @utils.arg('snapshot-id',
            metavar='<snapshot-id>',
-           help='ID of the snapshot to delete.')
+           help='ID of the snapshot to delete.',
+           nargs='+')
 @utils.service_type('volumev2')
 def do_snapshot_delete(cs, args):
     """Remove a snapshot."""
-    snapshot = _find_volume_snapshot(cs, args.snapshot_id)
-    snapshot.delete()
+    for snap in args.snapshot_id:
+        snapshot = _find_volume_snapshot(cs, snap)
+        snapshot.delete()
 
 
 @utils.arg('snapshot', metavar='<snapshot>', help='ID of the snapshot.')
@@ -875,12 +881,14 @@ def do_backup_list(cs, args):
 
 
 @utils.arg('backup', metavar='<backup>',
-           help='ID of the backup to delete.')
+           help='ID of the backup to delete.',
+           nargs='+')
 @utils.service_type('volumev2')
 def do_backup_delete(cs, args):
     """Remove a backup."""
-    backup = _find_backup(cs, args.backup)
-    backup.delete()
+    for backup_to_delete in args.backup:
+        backup = _find_backup(cs, backup_to_delete)
+        backup.delete()
 
 
 @utils.arg('backup', metavar='<backup>',
