@@ -23,9 +23,9 @@ class Volume(base.Resource):
     def __repr__(self):
         return "<Volume: %s>" % self.id
 
-    def delete(self):
+    def delete(self, delete_snapshots=False):
         """Delete this volume."""
-        self.manager.delete(self)
+        self.manager.delete(self, delete_snapshots=delete_snapshots)
 
     def update(self, **kwargs):
         """Update the name or description for this volume."""
@@ -293,12 +293,16 @@ class VolumeManager(base.ManagerWithFind):
                                    sort_dir=sort_dir, sort=sort)
         return self._list(url, resource_type, limit=limit)
 
-    def delete(self, volume):
+    def delete(self, volume, delete_snapshots=False):
         """Delete a volume.
 
         :param volume: The :class:`Volume` to delete.
         """
-        self._delete("/volumes/%s" % base.getid(volume))
+        req_location = "/volumes/%s" % base.getid(volume)
+        if delete_snapshots:
+            req_location += "?delete_snapshots"
+
+        self._delete(req_location)
 
     def update(self, volume, **kwargs):
         """Update the name or description for a volume.
