@@ -446,6 +446,9 @@ def do_create(cs, args):
     utils.print_dict(info)
 
 
+@utils.arg('--force',
+           action='store_true',
+           help='Volume force delete.')
 @utils.arg('--cascade',
            metavar='<cascade>',
            default=False,
@@ -461,7 +464,8 @@ def do_delete(cs, args):
     failure_count = 0
     for volume in args.volume:
         try:
-            utils.find_volume(cs, volume).delete(cascade=args.cascade)
+            utils.find_volume(cs, volume).delete(cascade=args.cascade,
+                                                 force=args.force)
             print("Request to delete volume %s has been accepted." % (volume))
         except Exception as e:
             failure_count += 1
